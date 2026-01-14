@@ -1,0 +1,51 @@
+
+CREATE TABLE tb_appointment
+(
+  id_appointment VARCHAR(36)  NOT NULL,
+  date DATETIME NULL,
+  room INTEGER  NULL,
+  status VARCHAR(14) NULL DEFAULT 'under_analysis',
+  id_user VARCHAR(36) NOT NULL,
+  PRIMARY KEY (id_appointment)
+);
+
+CREATE TABLE tb_log
+(
+  id_logs VARCHAR(36) NOT NULL,
+  activity_type VARCHAR(90) NULL,
+  module VARCHAR(15) NULL,
+  created_at DATETIME NULL,
+  id_user VARCHAR(36) NOT NULL,
+  PRIMARY KEY (id_logs)
+);
+
+CREATE TABLE tb_user
+(
+  id_user VARCHAR(36) NOT NULL,
+  status CHAR NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  email VARCHAR(80) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  type_user VARCHAR(10) NOT NULL,
+  zip_code VARCHAR(9) NULL,
+  street VARCHAR(255) NULL,
+  house_number INTEGER NULL,
+  complement VARCHAR(100) NULL,
+  neighborhood VARCHAR(50) NULL,
+  city VARCHAR(50) NULL,
+  state VARCHAR(50) NULL,
+  permission_appointments CHAR NULL,
+  permission_logs CHAR NULL,
+  PRIMARY KEY (id_user)
+);
+
+ALTER TABLE tb_log
+  ADD CONSTRAINT FK_tb_user_TO_tb_log
+    FOREIGN KEY (id_user)
+    REFERENCES tb_user (id_user);
+
+ALTER TABLE tb_appointment
+  ADD CONSTRAINT FK_tb_user_TO_tb_appointment
+    FOREIGN KEY (id_user)
+    REFERENCES tb_user (id_user);
