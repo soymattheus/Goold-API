@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { AuthData } = require("../data/auth.data");
+const { TokenBlacklist } = require("../models");
 
 exports.AuthController = {
   login: async (req, res) => {
@@ -98,9 +99,10 @@ exports.AuthController = {
         return res.status(400).json({ message: "Token inválido" });
       }
 
-      const expiresAt = new Date(decoded.exp * 1000);
-
-      await AuthData.insertTokenAtBlacklist({ token, expiresAt });
+      await TokenBlacklist.create({
+        token,
+        expires_at: new Date(decoded.exp * 1000),
+      });
 
       return res.json({ message: "Logout realizado com sucesso" });
     } catch (err) {

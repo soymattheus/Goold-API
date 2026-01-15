@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { AuthData } = require("../data/auth.data");
+const { TokenBlacklist } = require("../models");
 
 exports.authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -11,10 +11,11 @@ exports.authMiddleware = async (req, res, next) => {
   const [, token] = authHeader.split(" ");
 
   try {
-    const isAtBlacklist = await AuthData.getlacklistToken({ token });
-    console.log(isAtBlacklist);
+    const isAtBlacklist = await TokenBlacklist.findOne({
+      where: { token },
+    });
 
-    if (isAtBlacklist.length > 0) {
+    if (isAtBlacklist) {
       return res.status(401).json({ message: "Token inválido" });
     }
 

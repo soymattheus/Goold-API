@@ -1,9 +1,10 @@
-// ./database/testConnection.js
-const db = require("./mysql");
+const { sequelize } = require("../models");
 
-async function test() {
-  const [rows] = await db.query("SELECT 1");
-  console.log("✅ MySQL conectado:", rows);
-}
-
-test();
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+})();
