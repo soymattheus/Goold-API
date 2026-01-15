@@ -5,6 +5,8 @@ const AppointmentController = require("../controllers/appointment.controller");
 
 const router = express.Router();
 
+router.get("/", authMiddleware, AppointmentController.getAppointments);
+
 router.post(
   "/",
   authMiddleware,
