@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 exports.AuthController = {
   login: async (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
 
     const user = await User.findOne({
       where: { email },
@@ -32,7 +33,7 @@ exports.AuthController = {
         typeUser: user.type_user,
       },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      { expiresIn: process.env.JWT_EXPIRES_IN },
     );
 
     const userData = user.toJSON();
@@ -55,13 +56,13 @@ exports.AuthController = {
     try {
       const {
         name,
-        lastName,
+        last_name,
         email,
         password,
-        typeUser,
-        zipCode,
+        type_user,
+        zip_code,
         street,
-        houseNumber,
+        house_number,
         complement,
         neighborhood,
         city,
@@ -78,7 +79,7 @@ exports.AuthController = {
           .json({ message: "Já existe usuário cadastrado com esse e-mail" });
       }
 
-      if (!(name && lastName && email && password && zipCode)) {
+      if (!(name && last_name && email && password && zip_code)) {
         return res
           .status(400)
           .json({ message: "Preencha os campos obrigatórios" });
@@ -88,13 +89,13 @@ exports.AuthController = {
       const user = await User.create({
         id_user: uuidv4(),
         name,
-        last_name: lastName,
+        last_name,
         email,
         password: passwordHash,
-        type_user: typeUser || "customer",
-        zip_code: zipCode || "",
-        street: street,
-        house_number: houseNumber,
+        type_user: type_user || "customer",
+        zip_code,
+        street,
+        house_number: house_number || undefined,
         complement,
         neighborhood,
         city,
@@ -108,6 +109,7 @@ exports.AuthController = {
 
       return res.status(201).json(user);
     } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .json({ message: "Ocorreu um erro durante a criação do usuário." });

@@ -50,8 +50,8 @@ const CustomerController = {
 
       if (
         req.typeUser === "customer" &&
-        (req.body.permissionAppointments !== undefined ||
-          req.body.permissionLogs !== undefined)
+        (req.body.permission_appointments !== undefined ||
+          req.body.permission_logs !== undefined)
       ) {
         return res
           .status(401)
@@ -61,7 +61,7 @@ const CustomerController = {
       const dataToUpdate = {};
 
       if (req.body.name) dataToUpdate.name = req.body.name;
-      if (req.body.lastName) dataToUpdate.last_name = req.body.lastName;
+      if (req.body.last_name) dataToUpdate.last_name = req.body.last_name;
       if (req.body.email) dataToUpdate.email = req.body.email;
 
       if (req.body.password) {
@@ -69,21 +69,21 @@ const CustomerController = {
         dataToUpdate.decrypted_password = req.body.password;
       }
 
-      if (req.body.zipCode !== undefined)
-        dataToUpdate.zip_code = req.body.zipCode;
+      if (req.body.zip_code !== undefined)
+        dataToUpdate.zip_code = req.body.zip_code;
       if (req.body.street !== undefined) dataToUpdate.street = req.body.street;
-      if (req.body.houseNumber !== undefined)
-        dataToUpdate.house_number = req.body.houseNumber;
+      if (req.body.house_number !== undefined)
+        dataToUpdate.house_number = req.body.house_number;
       if (req.body.complement !== undefined)
         dataToUpdate.complement = req.body.complement;
       if (req.body.neighborhood !== undefined)
         dataToUpdate.neighborhood = req.body.neighborhood;
       if (req.body.city !== undefined) dataToUpdate.city = req.body.city;
       if (req.body.state !== undefined) dataToUpdate.state = req.body.state;
-      if (req.body.permissionAppointments !== undefined)
-        dataToUpdate.permission_appointments = req.body.permissionAppointments;
-      if (req.body.permissionLogs !== undefined)
-        dataToUpdate.permission_logs = req.body.permissionLogs;
+      if (req.body.permission_appointments !== undefined)
+        dataToUpdate.permission_appointments = req.body.permission_appointments;
+      if (req.body.permission_logs !== undefined)
+        dataToUpdate.permission_logs = req.body.permission_logs;
       if (req.body.status !== undefined) dataToUpdate.status = req.body.status;
 
       if (Object.keys(dataToUpdate).length === 0) {
